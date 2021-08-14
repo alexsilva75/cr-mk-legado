@@ -1,0 +1,30 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+<div class="container dashboard">
+    <div class="row py-4">
+        <div class="col-md-6">
+            <div class="card listing-preview">
+                <div class="card-body">
+                    <h2 class="card-title">Pesquisar Logs de Conexões</h2>
+                    <p>Permite pesquisar as conexões dos usuários em um período.</p>
+                    <a href="{% url 'conexoes' %}" class="btn btn-primary">Pesquisar</a>
+                </div>
+            </div>
+            
+        </div>
+        <div class="col-md-6">
+            <div class="card listing-preview">
+                <div class="card-body">
+                    <h2 class="card-title">Pesquisar Boletos Gerados</h2>
+                    <p>Permite a pesquisa por usuário</p>
+                    <a href="{% url 'boletos' %}" class="btn btn-primary">Pesquisar</a>
+                </div>
+                
+            </div>            
+        </div>
+    </div>
+</div>
+
+{% endblock %}

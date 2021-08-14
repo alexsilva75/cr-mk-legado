@@ -9,6 +9,8 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=pg@crt3l3c0m
+    ports:
+      - 5433:5432
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000

@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class AccessesConfig(AppConfig):
+class ConexoesConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'accesses'
+    name = 'conexoes'

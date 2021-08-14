@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -31,6 +32,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'conexoes.apps.ConexoesConfig',
+    'boletos.apps.BoletosConfig',
+    'accounts.apps.AccountsConfig',
+    'pages.apps.PagesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -54,7 +59,7 @@ ROOT_URLCONF = 'cr.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR), 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -83,7 +88,7 @@ WSGI_APPLICATION = 'cr.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'btredb',
+        'NAME': 'mk',
         'USER': 'postgres',
         'PASSWORD': 'pg@crt3l3c0m',
         'HOST': 'db',
@@ -133,3 +138,12 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/3.2/howto/static-files/
+STATIC_ROOT = os.path.join(BASE_DIR,'static')
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join( BASE_DIR, 'cr/static'  )
+]

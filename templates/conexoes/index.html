@@ -1,0 +1,132 @@
+{% extends 'base.html'%}
+
+{% block content %}
+<div class="container">
+    <div class="row text-center">
+      <div class="col-md-12 my-4">
+          <div class="card">
+            <div class="card-body">
+              <h2 class="card-title">Pesquisar Conexões</h2>
+            <form action="{% url 'con_search' %}" >
+              <!-- Form Row 1 -->
+              <div class="form-row ">
+                <div class="col-md-4 mb-3">
+                    <label class="sr-only">Cidade</label>
+                    <select name="cidade" class="form-control">
+                      <option selected="true" disabled="disabled">Cidade</option>
+                      {% for cidade in cidades %}      
+                          <option value="{{ cidade.codcidade }}"  {% if bairro.codbairro == values.cidade %}selected{% endif %}>{{cidade.cidade}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">Bairro</label>
+                  <select name="bairro" class="form-control">
+                    <option selected="true" disabled="disabled">Bairro</option>
+                    {% for bairro in bairros %}      
+                        <option value="{{ bairro.codbairro }}"  {% if bairro.codbairro == values.bairro %}selected{% endif %}>{{bairro.bairro}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">Contrato suspenso</label>
+                  <select name="bairro" class="form-control">
+                    <option selected="true" disabled="disabled">Contrato suspenso</option>
+                    <option  value="S" {% if 'S' == values.contrato_suspenso %}selected{% endif %}>Sim</option>
+                    <option value="N"  {% if 'N' == values.contrato_suspenso %}selected{% endif %}>Não</option>
+                   
+                  </select>
+                </div>     
+
+                
+
+              </div>
+              <!-- Form Row 2 -->
+              <div class="form-row">
+                <div class="col-md-6 mb-3">                    
+                        <label class="sr-only">Usuário</label>
+                        <input 
+                          type="text" 
+                          name="city" 
+                          class="form-control" 
+                          placeholder="Pesquisar pelo nome do usuário"                          
+                          >                      
+                </div>
+                <div class="col-md-6 mb-3">
+                    
+                </div>
+              </div>
+              
+              <button class="btn btn-secondary btn-block mt-4" type="submit">Pesquisar</button>
+            </form>
+          </div>
+        </div>
+</div>
+
+
+            <div class="container">
+                {% for conexao in conexoes %}
+                    <div class="row">
+                        <div class="col-md-12 ">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h3 class="card-title">
+                                        {{ conexao.username }}
+                                    </h3>
+                                </div>
+                        </div>
+                    </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+      </div>
+
+    
+
+   
+    <div class="row">
+        <div class="col-md-12">
+          {% if conexoes.has_other_pages %}
+            <ul class="pagination">
+              {% if conexoes.has_previous %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{conexoes.previous_page_number}}">&laquo;</a>
+                </li>
+              {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link" >&laquo;</a>
+                </li>
+              {% endif %}
+
+              {% for i in conexoes.paginator.page_range %}
+                {% if conexoes.number == i %}
+                  <li class="page-item active">
+                    <a class="page-link">{{ i }}</a>
+                  </li>
+                {% else %}
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                  </li>
+                {% endif %}
+              {% endfor %}           
+              
+             {% if conexoes.has_next %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{conexoes.next_page_number}}">&raquo;</a>
+                </li>
+              {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link">&raquo;</a>
+                </li>
+              {% endif %}
+            </ul>
+          {% endif %}
+
+        </div>
+      </div>
+
+{% endblock %}
