@@ -140,3 +140,10 @@ img {
   display: block;
   width: 100%;
 }
+
+.collapse.navbar-collapse::before{
+  content: " ";
+  display: block;
+  height: 24px;
+  padding: 24px;
+}

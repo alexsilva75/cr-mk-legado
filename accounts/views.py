@@ -6,8 +6,8 @@ from django.contrib.auth.models import User
 def login(request):
     
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
         user = auth.authenticate(username=username, password=password)
         if user is not None:
@@ -21,7 +21,9 @@ def login(request):
     return render(request, 'accounts/login.html')
 
 def logout(request):
+    print('Logout method: ', request.method )
     if request.method == 'POST':
+        print('Logging out......')
         auth.logout(request)
         messages.success(request, 'Você foi desconectado com sucesso.')
         return redirect('login')
