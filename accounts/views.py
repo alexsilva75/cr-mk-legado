@@ -21,7 +21,7 @@ def login(request):
     return render(request, 'accounts/login.html')
 
 def logout(request):
-    print('Logout method: ', request.method )
+   # print('Logout method: ', request.method )
     if request.method == 'POST':
         print('Logging out......')
         auth.logout(request)

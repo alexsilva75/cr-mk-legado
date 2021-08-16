@@ -2,39 +2,51 @@
 
 {% block content %}
 <div class="container">
-    <div class="row text-center">
+    <div class="row ">
       <div class="col-md-12 my-4">
-          <div class="card">
+          <div class="card text-center">
             <div class="card-body">
-              <h2 class="card-title">Pesquisar Conexões</h2>
+              <h2 class="card-title">Pesquisar Conexões </h2>
             <form action="{% url 'con_search' %}" >
               <!-- Form Row 1 -->
               <div class="form-row ">
                 <div class="col-md-4 mb-3">
                     <label class="sr-only">Cidade</label>
                     <select name="cidade" class="form-control">
-                      <option selected="true" disabled="disabled">Cidade</option>
+                      <option  value="">Cidade</option>
+                      {% if values.cidade %}
+                        <option value="{{values.cidade}}" selected>{{choices.cidade.cidade}}</option>
+                      {% endif %}
+
                       {% for cidade in cidades %}      
-                          <option value="{{ cidade.codcidade }}"  {% if bairro.codbairro == values.cidade %}selected{% endif %}>{{cidade.cidade}}</option>
+                          <option value="{{ cidade.codcidade }}"  
+                          {% if cidade.codcidade  == values.cidade %}selected{% endif %}>{{cidade.cidade}}</option>
                       {% endfor %}
                     </select>
                   </div>
+
+
                 <div class="col-md-4 mb-3">
                   <label class="sr-only">Bairro</label>
                   <select name="bairro" class="form-control">
-                    <option selected="true" disabled="disabled">Bairro</option>
+                    <option  value="" >Bairro</option>
+                    {% if values.cidade %}
+                        <option value="{{values.bairro}}" selected>{{choices.bairro.bairro}}</option>
+                    {% endif %}
+
                     {% for bairro in bairros %}      
-                        <option value="{{ bairro.codbairro }}"  {% if bairro.codbairro == values.bairro %}selected{% endif %}>{{bairro.bairro}}</option>
+                        <option value="{{ bairro.codbairro }}"  
+                        {% if bairro.codbairro == values.bairro %}selected{% endif %}>{{bairro.bairro}}</option>
                     {% endfor %}
                   </select>
                 </div>
 
                 <div class="col-md-4 mb-3">
                   <label class="sr-only">Contrato suspenso</label>
-                  <select name="bairro" class="form-control">
-                    <option selected="true" disabled="disabled">Contrato suspenso</option>
-                    <option  value="S" {% if 'S' == values.contrato_suspenso %}selected{% endif %}>Sim</option>
-                    <option value="N"  {% if 'N' == values.contrato_suspenso %}selected{% endif %}>Não</option>
+                  <select name="suspenso" class="form-control">
+                    <option selected="true" value="">Contrato suspenso</option>
+                    <option  value="S" {% if 'S' == values.suspenso %}selected{% endif %}>Sim</option>
+                    <option value="N"  {% if 'N' == values.suspenso %}selected{% endif %}>Não</option>
                    
                   </select>
                 </div>     
@@ -48,7 +60,8 @@
                         <label class="sr-only">Usuário</label>
                         <input 
                           type="text" 
-                          name="city" 
+                          name="username" 
+                          value="{{ values.username }}"
                           class="form-control" 
                           placeholder="Pesquisar pelo nome do usuário"                          
                           >                      
@@ -64,28 +77,43 @@
         </div>
 </div>
 
+</div>
+            <!-- <div class="container"> -->
+              
+              
+              
+              
+              <!-- <p>{{values}}</p> -->
 
-            <div class="container">
+
+
                 {% for conexao in conexoes %}
-                    <div class="row">
+                    <div class="row my-2">
                         <div class="col-md-12 ">
                             <div class="card">
                                 <div class="card-body">
                                     <h3 class="card-title">
                                         {{ conexao.username }}
                                     </h3>
+                                    <h4 class="card-subtitle text-muted">{{ conexao.codcliente.nome_razaosocial }}</h4>
+                                    <p class="card-text">
+                                       {{ conexao.codcliente.codcidade.cidade }}
+                                    </p>
+                                    <p class="card-text">
+                                      {{ conexao.codcliente.codbairro.bairro }}
+                                   </p>
                                 </div>
                         </div>
                     </div>
                     </div>
                 {% endfor %}
-            </div>
+            <!-- </div> -->
 
-        </div>
+       
 
       </div>
 
-    
+    <br>
 
    
     <div class="row">
@@ -94,7 +122,7 @@
             <ul class="pagination">
               {% if conexoes.has_previous %}
                 <li class="page-item">
-                  <a class="page-link" href="?page={{conexoes.previous_page_number}}">&laquo;</a>
+                  <a class="page-link" href="?page={{conexoes.previous_page_number}}&cidade={{values.cidade}}&bairro={{values.bairro}}&suspenso={{values.suspenso}}&username={{values.username}}">&laquo;</a>
                 </li>
               {% else %}
                 <li class="page-item disabled">
@@ -109,14 +137,14 @@
                   </li>
                 {% else %}
                   <li class="page-item">
-                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                    <a class="page-link" href="?page={{ i }}&cidade={{values.cidade}}&bairro={{values.bairro}}&suspenso={{values.suspenso}}&username={{values.username}}">{{ i }}</a>
                   </li>
                 {% endif %}
               {% endfor %}           
               
              {% if conexoes.has_next %}
                 <li class="page-item">
-                  <a class="page-link" href="?page={{conexoes.next_page_number}}">&raquo;</a>
+                  <a class="page-link" href="?page={{conexoes.next_page_number}}&cidade={{values.cidade}}&bairro={{values.bairro}}&suspenso={{values.suspenso}}&username={{values.username}}">&raquo;</a>
                 </li>
               {% else %}
                 <li class="page-item disabled">
@@ -128,5 +156,5 @@
 
         </div>
       </div>
-
+      <div class="offset"></div>
 {% endblock %}

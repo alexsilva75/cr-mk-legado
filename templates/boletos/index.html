@@ -17,7 +17,7 @@
                     name="numero" 
                     class="form-control" 
                     placeholder="Pesquisar pelo número do boleto"
-                  
+                    value="{{values.numero}}"
                     >
                 </div>
 
@@ -25,10 +25,10 @@
                   <label class="sr-only">Cliente</label>
                   <input 
                     type="text" 
-                    name="city" 
+                    name="cliente" 
                     class="form-control" 
                     placeholder="Pesquisar pelo nome do cliente"
-                    
+                    value="{{values.cliente}}"
                     >
                 </div>
 
@@ -36,10 +36,10 @@
                   <label class="sr-only">Usuário</label>
                   <input 
                     type="text" 
-                    name="city" 
+                    name="username" 
                     class="form-control" 
                     placeholder="Pesquisar pelo nome do usuário"
-                    
+                    value="{{values.username}}"
                     >
                 </div>
 
@@ -81,5 +81,67 @@
         </div>
       </div>
     </div>
+
+
+    {% for boleto in boletos %}
+                    <div class="row my-2">
+                        <div class="col-md-12 ">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h3 class="card-title">
+                                        {{ boleto.username }}
+                                    </h3>
+                                    <h4 class="card-subtitle text-muted">{{ boleto.cd_fatura.cd_pessoa.nome_razaosocial }}</h4>
+                                   <p>Nosso número: {{ boleto.nosso_numero_formatado }}</p>
+                                </div>
+                        </div>
+                    </div>
+                    </div>
+                {% endfor %}
+
+
   </div>
+
+
+  <div class="row">
+    <div class="col-md-12">
+      {% if boletos.has_other_pages %}
+        <ul class="pagination">
+          {% if boletos.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{boletos.previous_page_number}}&cliente={{values.cliente}}&numero={{values.numero}}&{{values.username}}">&laquo;</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <a class="page-link" >&laquo;</a>
+            </li>
+          {% endif %}
+
+          {% for i in boletos.paginator.page_range %}
+            {% if boletos.number == i %}
+              <li class="page-item active">
+                <a class="page-link">{{ i }}</a>
+              </li>
+            {% else %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ i }}&cliente={{values.cliente}}&numero={{values.numero}}&{{values.username}}">{{ i }}</a>
+              </li>
+            {% endif %}
+          {% endfor %}           
+          
+         {% if boletos.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{boletos.next_page_number}}&cliente={{values.cliente}}&numero={{values.numero}}&{{values.username}}">&raquo;</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <a class="page-link">&raquo;</a>
+            </li>
+          {% endif %}
+        </ul>
+      {% endif %}
+
+    </div>
+  </div>
+  <div class="offset"></div>
 {% endblock %}

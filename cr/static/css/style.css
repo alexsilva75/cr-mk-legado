@@ -1,5 +1,6 @@
 body{
   position: relative;
+  min-height: 100%;
 }
 .btn-secondary {
   color: #fff !important;
@@ -135,10 +136,11 @@ img {
 } */
 
 #main-footer{
-  position:absolute;
-  bottom: -72px;;
+  position:fixed;
+  bottom: 0;
   display: block;
   width: 100%;
+  z-index: 1;
 }
 
 .collapse.navbar-collapse::before{
@@ -147,3 +149,11 @@ img {
   height: 24px;
   padding: 24px;
 }
+
+.offset::before{
+  content: " ";
+  display: block;
+  margin-bottom: 72px;
+
+}
+
