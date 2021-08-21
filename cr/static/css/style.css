@@ -157,3 +157,8 @@ img {
 
 }
 
+.input-append.date.datepicker {
+  padding: 0;
+  margin-top: 0;
+}
+

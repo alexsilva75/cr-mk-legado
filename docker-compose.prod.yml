@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+   web:
+    build: ./cr-mk-legado
+    command: gunicorn --bind 0.0.0.0:8001 cr.wsgi:application
+    volumes:
+      - ./:/code
+      - ./static:/static
+    depends_on:
+      - db
+    ports:
+      - 8001:8001
+    restart: always
+  proxy:
+    build: ./dist/nginx
+    volumes:
+      - ./:/app/static
+    ports:
+      - 80:80
+    depends_on:
+      - web
+    restart: always
+  db:
+    image: postgres
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=pg@crt3l3c0m
+    ports:
+      - 5433:5432
+    restart: always
+volumes:
+  postgres-db:
+    external: true
+    name: postgres-db
+
+

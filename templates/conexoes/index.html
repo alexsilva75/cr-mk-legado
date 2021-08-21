@@ -10,7 +10,7 @@
             <form action="{% url 'con_search' %}" >
               <!-- Form Row 1 -->
               <div class="form-row ">
-                <div class="col-md-4 mb-3">
+                <div class="col-md-3 mb-3">
                     <label class="sr-only">Cidade</label>
                     <select name="cidade" class="form-control">
                       <option  value="">Cidade</option>
@@ -26,7 +26,7 @@
                   </div>
 
 
-                <div class="col-md-4 mb-3">
+                <div class="col-md-3 mb-3">
                   <label class="sr-only">Bairro</label>
                   <select name="bairro" class="form-control">
                     <option  value="" >Bairro</option>
@@ -41,36 +41,52 @@
                   </select>
                 </div>
 
-                <div class="col-md-4 mb-3">
-                  <label class="sr-only">Contrato suspenso</label>
-                  <select name="suspenso" class="form-control">
-                    <option selected="true" value="">Contrato suspenso</option>
-                    <option  value="S" {% if 'S' == values.suspenso %}selected{% endif %}>Sim</option>
-                    <option value="N"  {% if 'N' == values.suspenso %}selected{% endif %}>Não</option>
-                   
-                  </select>
-                </div>     
-
-                
-
-              </div>
-              <!-- Form Row 2 -->
-              <div class="form-row">
-                <div class="col-md-6 mb-3">                    
-                        <label class="sr-only">Usuário</label>
-                        <input 
-                          type="text" 
-                          name="username" 
-                          value="{{ values.username }}"
-                          class="form-control" 
-                          placeholder="Pesquisar pelo nome do usuário"                          
-                          >                      
+                <div class="col-md-3 mb-3">                    
+                  <label class="sr-only">Usuário</label>
+                  <input 
+                    type="text" 
+                    name="username" 
+                    value="{{ values.username }}"
+                    class="form-control" 
+                    placeholder="Pesquisar pelo nome do usuário"                          
+                    >                      
                 </div>
-                <div class="col-md-6 mb-3">
-                    
-                </div>
-              </div>
+                <div class="col-md-3 mb-3">
+                  <label class="sr-only">Nome do Cliente</label>
+                  <input 
+                    type="text" 
+                    name="cliente" 
+                    value="{{ values.cliente }}"
+                    class="form-control" 
+                    placeholder="Pesquisar pelo nome do cliente"                          
+                    >  
+                </div>                      
+
+              </div>    
+
               
+              <div class="form-row">
+                  <div class="col-md-4 mb-3 form-group text-left">                    
+                      <label for="init-date">Data inicial</label>
+                      <input                       
+                        class="form-control" 
+                        id="init-date"
+                        size="16" 
+                        type="date" 
+                        value="{{values.init_date}}">                 
+                  </div>
+
+                    <div class="col-md-4 mb-3 form-group text-left">                      
+                      <label>Data Final</label>
+                      <input                       
+                        class="form-control" 
+                        size="16" 
+                        type="date" 
+                        value="{{values.init_date}}">            
+                    </div>
+              
+              </div>
+         
               <button class="btn btn-secondary btn-block mt-4" type="submit">Pesquisar</button>
             </form>
           </div>
@@ -102,6 +118,9 @@
                                     <p class="card-text">
                                       {{ conexao.codcliente.codbairro.bairro }}
                                    </p>
+                                   <p class="card-text">
+                                    {{ conexao.data_login_enc }}
+                                 </p>
                                 </div>
                         </div>
                     </div>
@@ -157,4 +176,6 @@
         </div>
       </div>
       <div class="offset"></div>
+      
+      
 {% endblock %}
