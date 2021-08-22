@@ -138,7 +138,7 @@ sup {
   top: -.5em; }
 
 a {
-  color: #10284e;
+  color: var(--primary);
   text-decoration: none;
   background-color: transparent;
   -webkit-text-decoration-skip: objects; }
@@ -3266,7 +3266,7 @@ input[type="button"].btn-block {
   text-decoration: none; }
 
 .breadcrumb-item.active {
-  color: #6c757d; }
+  color: var(--primary);}
 
 .pagination {
   display: flex;

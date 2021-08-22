@@ -95,14 +95,17 @@ DATABASES = {
         'PORT': 5432,
     },
 
-    # 'radius': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'acct',
-    #     'USER': 'postgres',
-    #     'PASSWORD': 'pg@crt3l3c0m',
-    #     'HOST': 'db',
-    #     'PORT': 5432,
-    # }
+    'radius': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'OPTIONS' : {
+            'options' : '-c search_path=acct'
+        },
+        'NAME': 'mk',
+        'USER': 'postgres',
+        'PASSWORD': 'pg@crt3l3c0m',
+        'HOST': 'db',
+        'PORT': 5432,
+    }
 
 
 }

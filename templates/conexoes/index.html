@@ -2,6 +2,17 @@
 
 {% block content %}
 <div class="container">
+  <div>
+
+
+    <nav aria-label="breadcrumb" class="my-4">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Página Inicial</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Pesquisar Conexões</li>
+      </ol>
+    </nav>
+  </div>
+
     <div class="row ">
       <div class="col-md-12 my-4">
           <div class="card text-center">
@@ -48,7 +59,7 @@
                     name="username" 
                     value="{{ values.username }}"
                     class="form-control" 
-                    placeholder="Pesquisar pelo nome do usuário"                          
+                    placeholder="Nome do usuário"                          
                     >                      
                 </div>
                 <div class="col-md-3 mb-3">
@@ -58,7 +69,7 @@
                     name="cliente" 
                     value="{{ values.cliente }}"
                     class="form-control" 
-                    placeholder="Pesquisar pelo nome do cliente"                          
+                    placeholder="Nome do cliente"                          
                     >  
                 </div>                      
 
@@ -66,14 +77,27 @@
 
               
               <div class="form-row">
+                <div class="col-md-4 mb-3 form-group text-left">                    
+                  <label for="cpf_cnpj">CPF/CNPJ</label>
+                  <input                       
+                    class="form-control" 
+                    id="cpf_cnpj"
+                    size="16" 
+                    type="text" 
+                    value="{{values.cpf_cnpj}}"
+                    onkeydown="maskCPFCNPJ()"   
+                    >      
+                            
+              </div>
                   <div class="col-md-4 mb-3 form-group text-left">                    
                       <label for="init-date">Data inicial</label>
                       <input                       
                         class="form-control" 
                         id="init-date"
+                        name="data_inicial"
                         size="16" 
                         type="date" 
-                        value="{{values.init_date}}">                 
+                        value="{{values.data_inicial}}">                 
                   </div>
 
                     <div class="col-md-4 mb-3 form-group text-left">                      
@@ -82,7 +106,8 @@
                         class="form-control" 
                         size="16" 
                         type="date" 
-                        value="{{values.init_date}}">            
+                        name="data_final"
+                        value="{{values.data_final}}">            
                     </div>
               
               </div>
@@ -109,18 +134,27 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h3 class="card-title">
-                                        {{ conexao.username }}
+                                        {{ conexao.mkconn_user.username }}
                                     </h3>
-                                    <h4 class="card-subtitle text-muted">{{ conexao.codcliente.nome_razaosocial }}</h4>
+                                    <h4 class="card-subtitle text-muted">{{ conexao.mkconn_user.codcliente.nome_razaosocial }}</h4>
                                     <p class="card-text">
-                                       {{ conexao.codcliente.codcidade.cidade }}
+                                       {{ conexao.mkconn_user.codcliente.codcidade.cidade }}
                                     </p>
                                     <p class="card-text">
-                                      {{ conexao.codcliente.codbairro.bairro }}
+                                      {{ conexao.mkconn_user.codcliente.codbairro.bairro }}
                                    </p>
                                    <p class="card-text">
-                                    {{ conexao.data_login_enc }}
-                                 </p>
+                                    Início da conexão: {{ conexao.acctstartdate }}                                    
+                                  </p>
+                                  <p class="card-text">
+                                    Fim da conexão: {{ conexao.acctstopdate }}                                  
+                                  </p>
+                                  <form action="{% url 'details' %}">
+                                      <button type="submit" class="btn btn-primary">Detalhes (Logs)</button>
+                                      <input type="hidden" name="inicio_conexao" value="{{ values.data_inicial }}">
+                                      <input type="hidden" name="fim_conexao" value="{{ values.data_final }}">
+                                      <input type="hidden" name="usernamd" value="{{ conexao.mkconn_user.username }}">
+                                  </form>
                                 </div>
                         </div>
                     </div>

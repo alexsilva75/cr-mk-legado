@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.fields import related
 
 # Create your models here.
 class MkConexoes(models.Model):
@@ -6,7 +7,7 @@ class MkConexoes(models.Model):
     codcliente = models.ForeignKey('MkPessoas', models.DO_NOTHING, db_column='codcliente', related_name='cod_cliente')
     tipo_conexao = models.IntegerField()
     autenticacao = models.IntegerField()
-    username = models.CharField(max_length=50, blank=True, null=True)
+    username = models.CharField(max_length=50, blank=True, null=True,unique=True)
     password = models.CharField(max_length=30, blank=True, null=True)
     instalador = models.ForeignKey('MkPessoas', models.DO_NOTHING, db_column='instalador', blank=True, null=True)
     cadastrado = models.DateField()
@@ -530,3 +531,78 @@ class MkPessoas(models.Model):
         managed = False
         db_table = 'mk_pessoas'
 
+# TABELAS DA BASE DE DADOS RADIUS / SCHEMA 'acct' #
+
+
+class MkRadacct(models.Model):
+    radacctid = models.AutoField(primary_key=True)
+    acctsessionid = models.CharField(max_length=32, blank=True, null=True)
+    mkconn_user = models.ForeignKey(MkConexoes, models.DO_NOTHING, db_column='username',to_field='username', related_name='mkconexoes', ) #models.CharField(max_length=64, blank=True, null=True)
+    acctdate = models.DateField(blank=True, null=True)
+    accttime = models.TimeField(blank=True, null=True)
+    guid_sessao = models.CharField(max_length=50, blank=True, null=True)
+    acctstartdate = models.DateField(blank=True, null=True)
+    acctstarttime = models.TimeField(blank=True, null=True)
+    acctstopdate = models.DateField(blank=True, null=True)
+    acctstoptime = models.TimeField(blank=True, null=True)
+    acctinputoctets = models.BigIntegerField(blank=True, null=True)
+    acctoutputoctets = models.BigIntegerField(blank=True, null=True)
+    nasportid = models.BigIntegerField(blank=True, null=True)
+    nasportidname = models.CharField(max_length=100, blank=True, null=True)
+    nasipaddress = models.CharField(max_length=25, blank=True, null=True)
+    framedipaddress = models.GenericIPAddressField(blank=True, null=True)
+    calledstationid = models.CharField(max_length=100, blank=True, null=True)
+    callingstationid = models.CharField(max_length=50, blank=True, null=True)
+    acctterminatecause = models.CharField(max_length=32, blank=True, null=True)
+    acctcount = models.IntegerField(blank=True, null=True)
+    acctfrequency = models.TimeField(blank=True, null=True)
+    sessao_info = models.CharField(max_length=200, blank=True, null=True)
+    framedipv6prefix = models.GenericIPAddressField(blank=True, null=True)
+    delegatedipv6prefix = models.GenericIPAddressField(blank=True, null=True)
+    def set_accts(self, accts):
+        self.accts = accts
+
+    def get_accts(self):
+        return self.accts
+
+    class Meta:
+        managed = False
+        db_table = '"acct\".\"mk_radacct"'
+
+class MkRadacctSessoesDia(models.Model):
+    radacctid = models.AutoField(primary_key=True)
+    acctdate = models.DateField(blank=True, null=True)
+    username = models.ForeignKey(MkConexoes, models.DO_NOTHING, db_column='username') # models.CharField(max_length=50, blank=True, null=True)
+    last_nasipaddress = models.CharField(max_length=20, blank=True, null=True)
+    last_framedipaddress = models.CharField(max_length=20, blank=True, null=True)
+    last_acctsessionid = models.CharField(max_length=32, blank=True, null=True)
+    input_dia = models.BigIntegerField(blank=True, null=True)
+    output_dia = models.BigIntegerField(blank=True, null=True)
+    input_mes = models.BigIntegerField(blank=True, null=True)
+    output_mes = models.BigIntegerField(blank=True, null=True)
+    acctsessionid = models.CharField(max_length=32, blank=True, null=True)
+    accttime = models.TimeField(blank=True, null=True)
+    guid_sessao = models.CharField(max_length=50, blank=True, null=True)
+    acctstartdate = models.DateField(blank=True, null=True)
+    acctstarttime = models.TimeField(blank=True, null=True)
+    acctstopdate = models.DateField(blank=True, null=True)
+    acctstoptime = models.TimeField(blank=True, null=True)
+    acctinputoctets = models.BigIntegerField(blank=True, null=True)
+    acctoutputoctets = models.BigIntegerField(blank=True, null=True)
+    nasportid = models.BigIntegerField(blank=True, null=True)
+    nasportidname = models.CharField(max_length=100, blank=True, null=True)
+    framedipaddress = models.GenericIPAddressField(blank=True, null=True)
+    calledstationid = models.CharField(max_length=50, blank=True, null=True)
+    callingstationid = models.CharField(max_length=50, blank=True, null=True)
+    acctterminatecause = models.CharField(max_length=32, blank=True, null=True)
+    acctcount = models.IntegerField(blank=True, null=True)
+    acctfrequency = models.TimeField(blank=True, null=True)
+    sessao_info = models.CharField(max_length=200, blank=True, null=True)
+    nasipaddress = models.CharField(max_length=25, blank=True, null=True)
+    acctinputoctetssession = models.BigIntegerField(blank=True, null=True)
+    acctoutputoctetssession = models.BigIntegerField(blank=True, null=True)
+    last_framedipv6prefix = models.GenericIPAddressField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'mk_radacct_sessoes_dia'

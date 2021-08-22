@@ -36,11 +36,27 @@
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'js/lightbox.min.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/jquery.mask.min.js' %}"></script>
     <!-- <script src="{% static 'js/bootstrap-datepicker.js' %}"></script> -->
-    <script>
 
+
+    <script>
+      function maskCPFCNPJ(){
+        let input_cpfcnpj = $('#cpf_cnpj')
+        console.log(input_cpfcnpj.val())
+        let cpfcnpj = input_cpfcnpj.val()
+
+        if(cpfcnpj.length >= 14){
+          console.log(cpfcnpj.length)
+          input_cpfcnpj.mask('00.000.000/0000-00')
+        }else{
+          input_cpfcnpj.mask('000.000.000-00')
+        }
+
+
+      }
       
-  </script>
+    </script>
 
   </body>
 </html>

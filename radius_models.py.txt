@@ -1,0 +1,172 @@
+# This is an auto-generated Django model module.
+# You'll have to do the following manually to clean this up:
+#   * Rearrange models' order
+#   * Make sure each model has one field with primary_key=True
+#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
+#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
+# Feel free to rename the models, but don't rename db_table values or field names.
+from django.db import models
+
+
+class FrProfileInstance(models.Model):
+    pri_codigo = models.CharField(primary_key=True, max_length=38)
+    pri_description = models.CharField(max_length=128)
+    pri_date = models.DateTimeField()
+    usr_codigo = models.IntegerField()
+    sis_codigo = models.CharField(max_length=3)
+
+    class Meta:
+        managed = False
+        db_table = 'fr_profile_instance'
+
+
+class FrProfileSummary(models.Model):
+    prs_codigo = models.CharField(primary_key=True, max_length=38)
+    pri_codigo = models.CharField(max_length=38)
+    prs_identifier = models.CharField(max_length=1024)
+    prs_parent_identifier = models.CharField(max_length=1024, blank=True, null=True)
+    prs_description = models.CharField(max_length=1024)
+    prs_hits = models.BigIntegerField(blank=True, null=True)
+    prs_total = models.BigIntegerField(blank=True, null=True)
+    prs_children_total = models.BigIntegerField(blank=True, null=True)
+    prs_max = models.BigIntegerField(blank=True, null=True)
+    prs_children_max = models.BigIntegerField(blank=True, null=True)
+    prs_min = models.BigIntegerField(blank=True, null=True)
+    prs_children_min = models.BigIntegerField(blank=True, null=True)
+    prs_avg = models.BigIntegerField(blank=True, null=True)
+    prs_children_avg = models.BigIntegerField(blank=True, null=True)
+    prs_type = models.CharField(max_length=1)
+    prs_shared_total = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'fr_profile_summary'
+
+
+class FrProfileTree(models.Model):
+    prt_codigo = models.CharField(primary_key=True, max_length=38)
+    prt_codigo_parent = models.CharField(max_length=38, blank=True, null=True)
+    pri_codigo = models.CharField(max_length=38, blank=True, null=True)
+    prt_description = models.CharField(max_length=1024, blank=True, null=True)
+    prt_identifier = models.CharField(max_length=1024, blank=True, null=True)
+    prt_start = models.BigIntegerField(blank=True, null=True)
+    prt_time = models.BigIntegerField(blank=True, null=True)
+    prt_type = models.CharField(max_length=1, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'fr_profile_tree'
+
+
+class MkAnaliseAuth(models.Model):
+    codid = models.AutoField(primary_key=True)
+    reply = models.CharField(max_length=100, blank=True, null=True)
+    username = models.CharField(max_length=100, blank=True, null=True)
+    pass_field = models.CharField(db_column='pass', max_length=100, blank=True, null=True)  # Field renamed because it was a Python reserved word.
+    authdate = models.DateTimeField(blank=True, null=True)
+    mac = models.CharField(max_length=50, blank=True, null=True)
+    service_type = models.CharField(max_length=100, blank=True, null=True)
+    nasportid = models.CharField(max_length=100, blank=True, null=True)
+    nasipaddress = models.CharField(max_length=50, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'mk_analise_auth'
+
+
+class MkConexoesAcct(models.Model):
+    codconexaoacct = models.AutoField(primary_key=True)
+    username = models.CharField(max_length=50, blank=True, null=True)
+    nasipaddress = models.CharField(max_length=20, blank=True, null=True)
+    framedipaddress = models.CharField(max_length=20, blank=True, null=True)
+    input_dia = models.BigIntegerField(blank=True, null=True)
+    output_dia = models.BigIntegerField(blank=True, null=True)
+    input_mes = models.BigIntegerField(blank=True, null=True)
+    output_mes = models.BigIntegerField(blank=True, null=True)
+    acctsessionid = models.CharField(max_length=32, blank=True, null=True)
+    framedipv6prefix = models.GenericIPAddressField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'mk_conexoes_acct'
+
+
+class MkRadacct(models.Model):
+    radacctid = models.AutoField(primary_key=True)
+    acctsessionid = models.CharField(max_length=32, blank=True, null=True)
+    username = models.CharField(max_length=64, blank=True, null=True)
+    acctdate = models.DateField(blank=True, null=True)
+    accttime = models.TimeField(blank=True, null=True)
+    guid_sessao = models.CharField(max_length=50, blank=True, null=True)
+    acctstartdate = models.DateField(blank=True, null=True)
+    acctstarttime = models.TimeField(blank=True, null=True)
+    acctstopdate = models.DateField(blank=True, null=True)
+    acctstoptime = models.TimeField(blank=True, null=True)
+    acctinputoctets = models.BigIntegerField(blank=True, null=True)
+    acctoutputoctets = models.BigIntegerField(blank=True, null=True)
+    nasportid = models.BigIntegerField(blank=True, null=True)
+    nasportidname = models.CharField(max_length=100, blank=True, null=True)
+    nasipaddress = models.CharField(max_length=25, blank=True, null=True)
+    framedipaddress = models.GenericIPAddressField(blank=True, null=True)
+    calledstationid = models.CharField(max_length=100, blank=True, null=True)
+    callingstationid = models.CharField(max_length=50, blank=True, null=True)
+    acctterminatecause = models.CharField(max_length=32, blank=True, null=True)
+    acctcount = models.IntegerField(blank=True, null=True)
+    acctfrequency = models.TimeField(blank=True, null=True)
+    sessao_info = models.CharField(max_length=200, blank=True, null=True)
+    framedipv6prefix = models.GenericIPAddressField(blank=True, null=True)
+    delegatedipv6prefix = models.GenericIPAddressField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'mk_radacct'
+
+
+class MkRadacctSessoesDia(models.Model):
+    radacctid = models.AutoField(primary_key=True)
+    acctdate = models.DateField(blank=True, null=True)
+    username = models.CharField(max_length=50, blank=True, null=True)
+    last_nasipaddress = models.CharField(max_length=20, blank=True, null=True)
+    last_framedipaddress = models.CharField(max_length=20, blank=True, null=True)
+    last_acctsessionid = models.CharField(max_length=32, blank=True, null=True)
+    input_dia = models.BigIntegerField(blank=True, null=True)
+    output_dia = models.BigIntegerField(blank=True, null=True)
+    input_mes = models.BigIntegerField(blank=True, null=True)
+    output_mes = models.BigIntegerField(blank=True, null=True)
+    acctsessionid = models.CharField(max_length=32, blank=True, null=True)
+    accttime = models.TimeField(blank=True, null=True)
+    guid_sessao = models.CharField(max_length=50, blank=True, null=True)
+    acctstartdate = models.DateField(blank=True, null=True)
+    acctstarttime = models.TimeField(blank=True, null=True)
+    acctstopdate = models.DateField(blank=True, null=True)
+    acctstoptime = models.TimeField(blank=True, null=True)
+    acctinputoctets = models.BigIntegerField(blank=True, null=True)
+    acctoutputoctets = models.BigIntegerField(blank=True, null=True)
+    nasportid = models.BigIntegerField(blank=True, null=True)
+    nasportidname = models.CharField(max_length=100, blank=True, null=True)
+    framedipaddress = models.GenericIPAddressField(blank=True, null=True)
+    calledstationid = models.CharField(max_length=50, blank=True, null=True)
+    callingstationid = models.CharField(max_length=50, blank=True, null=True)
+    acctterminatecause = models.CharField(max_length=32, blank=True, null=True)
+    acctcount = models.IntegerField(blank=True, null=True)
+    acctfrequency = models.TimeField(blank=True, null=True)
+    sessao_info = models.CharField(max_length=200, blank=True, null=True)
+    nasipaddress = models.CharField(max_length=25, blank=True, null=True)
+    acctinputoctetssession = models.BigIntegerField(blank=True, null=True)
+    acctoutputoctetssession = models.BigIntegerField(blank=True, null=True)
+    last_framedipv6prefix = models.GenericIPAddressField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'mk_radacct_sessoes_dia'
+
+
+class MkRadiusOnline(models.Model):
+    codradonline = models.AutoField(primary_key=True)
+    nasipaddress = models.CharField(max_length=15, blank=True, null=True)
+    quant = models.IntegerField(blank=True, null=True)
+    data_hora = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'mk_radius_online'
