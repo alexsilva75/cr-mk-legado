@@ -1,4 +1,5 @@
 from django.db.models import query
+from django.db.models.aggregates import Sum
 from django.db.models.expressions import F, RawSQL
 from django.db.models import Q
 from django.shortcuts import render
@@ -80,9 +81,21 @@ def search(request):
         if cpf_cnpj:
             queryset_list = queryset_list.filter(Q(mkconn_user__codcliente__cpf__contains=cpf_cnpj) | Q(mkconn_user__codcliente__cnpj__contains=cpf_cnpj))
 
+    
+
+    user_count = Count('mkconn_user__username')
+
+    queryset_list = queryset_list.values('mkconn_user',
+        'mkconn_user__codcliente__nome_razaosocial',
+        'mkconn_user__codcliente__cpf',
+        'mkconn_user__codcliente__cnpj',
+        'mkconn_user__codcliente__codbairro__bairro',
+        'mkconn_user__codcliente__codcidade__cidade',
+        ).annotate(user_count=user_count)
+
     print('QUERY: ', queryset_list.query)
 
-    queryset_list = queryset_list.annotate(Count('mkconn_user'))
+    print('QUERYSET_LIST[0]',queryset_list[0])
 
     queryset_list = queryset_list.order_by('-acctstartdate')
     paginator = Paginator(queryset_list, 50)

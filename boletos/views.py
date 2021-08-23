@@ -27,7 +27,7 @@ def search(request):
         if cliente:
             query_list = query_list.filter(cd_fatura__cd_pessoa__nome_razaosocial__contains=cliente)
     
-    liquidado = request.GET['liquidado']
+    liquidado = request.GET.get('liquidado')
     query_list = query_list.filter(cd_fatura__liquidado__exact=liquidado)
 
     if 'cpf_cnpj' in request.GET:
