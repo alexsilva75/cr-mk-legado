@@ -61,7 +61,8 @@ def details(request ):
     conexoes = boleto.cd_fatura.cd_pessoa.conexoes.all()
     context = {
         'boleto': boleto,
-        'conexoes': conexoes
+        'conexoes': conexoes,
+        'values': request.GET
     }
 
     return render(request,'boletos/details.html', context)

@@ -118,10 +118,10 @@
                                    <p>Vencimento: {{ boleto.vencimento|date:"d/m/Y"}}</p>
 
 
-                                   <p>Liquidado: {{boleto.liquidado}}</p>                        
+                                   <p>Liquidado: {{boleto.cd_fatura.liquidado}}</p>                        
 
 
-                                   <form action="{% url 'bdetails' %}">
+                                   <form class="float-right" action="{% url 'bdetails' %}">
                                     <button type="submit" class="btn btn-primary">Detalhes (Logs)</button>
                                     <input type="hidden" name="vencimento" value="{{ boleto.vencimento_dt_normal|date:"d/m/Y" }}">
                                     <input type="hidden" name="bcodgeracao" value="{{ boleto.codgeracao }}">                                    

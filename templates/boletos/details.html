@@ -13,7 +13,7 @@
 
         <div class="row">
             <div class="col-md-12 py-4">
-                <h1>Detalhes do Boleto</h1>
+                <h1 class="h2">Detalhes do Boleto</h1>
                 <div class="row">
                     <div class="col-md-6">
                         <h2>{{values.username}}</h2>
@@ -30,17 +30,28 @@
                 </div>
                 <div class="row">
                   <div class="col-md-12">
-                    <h2>Usuários</h2>
+                    <h2 class="h3" >Usuários</h2>
                     <ul class="list-group">
                       {% for conexao in  conexoes %}
-                        <li class="list-group-item">{{conexao.username}}</li>
+                        <li class="list-group-item">{{conexao.username}} 
+                          <form class="float-right" action="{% url 'details' %}">
+                          <button type="submit" class="btn btn-primary">Detalhes (Logs)</button>
+                          <input type="hidden" name="inicio_conexao" value="{{ values.data_inicial }}">
+                          <input type="hidden" name="fim_conexao" value="{{ values.data_final }}">
+                          <input type="hidden" name="username" value="{{ conexao.username }}">
+                          <input type="hidden" name="nome_razaosocial" value="{{ conexao.codcliente.nome_razaosocial}}">
+                          <input type="hidden" name="cpf" value="{{ conexao.codcliente.cpf}}">
+                          <input type="hidden" name="cnpj" value="{{ conexao.codcliente.cnpj }}">
+                      </form>
+                    </li>
                       {% endfor %}
                     </ul>
                   </div>
                 </div>
-                <div class="row">
+
+                <!-- <div class="row">
                     <div class="col-md-12">
-                        <h2 class="py-4">Log de acesso</h2>
+                        <h2 class="py-4 h3">Log de acesso</h2>
                         <div class="table-responsive">
 
                         <table class="table table-success table-striped table-hover ">
@@ -67,10 +78,10 @@
                             </tfoot>           
                         </table>
                     </div>
-                    </div>
-                    
+                    </div>     
+                </div> -->
 
-                </div>
+
             </div>
         </div>
     </div>
