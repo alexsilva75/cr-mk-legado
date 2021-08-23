@@ -4,21 +4,27 @@ from django.contrib.auth.models import User
 
 # Create your views here.
 def login(request):
+
+    user = request.user
+
+    if user.is_authenticated:
+        return redirect('dashboard')
+    else:
     
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
 
-        user = auth.authenticate(username=username, password=password)
-        if user is not None:
-            auth.login(request, user)
-            messages.success(request, 'Você está logado.')
-            return redirect('dashboard')
-        else:
-            messages.error(request, 'Usuário e/ou senha inválido(s).')
-            return redirect('login')
+            user = auth.authenticate(username=username, password=password)
+            if user is not None:
+                auth.login(request, user)
+                messages.success(request, 'Você está logado.')
+                return redirect('dashboard')
+            else:
+                messages.error(request, 'Usuário e/ou senha inválido(s).')
+                return redirect('login')
 
-    return render(request, 'accounts/login.html')
+        return render(request, 'accounts/login.html')
 
 def logout(request):
    # print('Logout method: ', request.method )
