@@ -35,6 +35,24 @@ def search(request):
         if cpf_cnpj:
             query_list = query_list.filter(Q(cd_fatura__cd_pessoa__cpf=cpf_cnpj) | Q(cd_fatura__cd_pessoa__cnpj=cpf_cnpj))
 
+    
+    if 'data_inicial' in request.GET:
+        data_inicial = request.GET['data_inicial']
+        
+        if data_inicial:
+            if 'data_final' in request.GET:
+                data_final = request.GET['data_final']
+                if data_final:
+                    query_list = query_list.filter(cd_fatura__data_vencimento__range=[data_inicial, data_final])
+                    
+                else:
+                    query_list = query_list.filter(cd_fatura__data_vencimento__range=[data_inicial, datetime.today().strftime('%Y-%m-%d')])
+        elif 'data_final' in request.GET:
+                data_final = request.GET['data_final']
+                if data_final:
+                    query_list = query_list.filter(cd_fatura__data_vencimento__lte=data_final)
+
+    query_list = query_list.order_by('-cd_fatura__data_vencimento')
     paginator = Paginator(query_list, 50)
     page = request.GET.get('page')
     paged_boletos = paginator.get_page(page)
@@ -54,14 +72,14 @@ def details(request ):
     
     str_vencimento = request.GET['vencimento']
 
-    vencimento = datetime.strptime(str_vencimento, '%d/%m/%Y')
+    # vencimento = datetime.strptime(str_vencimento, '%d/%m/%Y')
 
-    print('VENCIMENTO:', vencimento)
+    conexoes_queryset_list = boleto.cd_fatura.cd_pessoa.conexoes.all()
 
-    conexoes = boleto.cd_fatura.cd_pessoa.conexoes.all()
+   
     context = {
         'boleto': boleto,
-        'conexoes': conexoes,
+        'conexoes': conexoes_queryset_list,
         'values': request.GET
     }
 
