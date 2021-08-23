@@ -4,7 +4,7 @@ from django.db.models.fields import related
 # Create your models here.
 class MkConexoes(models.Model):
     codconexao = models.AutoField(primary_key=True)
-    codcliente = models.ForeignKey('MkPessoas', models.DO_NOTHING, db_column='codcliente', related_name='cod_cliente')
+    codcliente = models.ForeignKey('MkPessoas', models.DO_NOTHING, db_column='codcliente', related_name='conexoes')
     tipo_conexao = models.IntegerField()
     autenticacao = models.IntegerField()
     username = models.CharField(max_length=50, blank=True, null=True,unique=True)
@@ -422,7 +422,7 @@ class MkLogradouros(models.Model):
         managed = False
         db_table = 'mk_logradouros'
 
-
+  
 class MkPessoas(models.Model):
     codpessoa = models.AutoField(primary_key=True)
     nome_razaosocial = models.CharField(max_length=100)

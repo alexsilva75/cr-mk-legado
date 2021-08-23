@@ -2,6 +2,16 @@
 
 {% block content %}
 <div class="container">
+  <div>
+
+
+    <nav aria-label="breadcrumb" class="my-4">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Página Inicial</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Pesquisar Boletos</li>
+      </ol>
+    </nav>
+  </div>
     <div class="row text-center">
       <div class="col-md-12 my-4">
           <div class="card">
@@ -16,7 +26,7 @@
                     type="text" 
                     name="numero" 
                     class="form-control" 
-                    placeholder="Pesquisar pelo número do boleto"
+                    placeholder="Número do boleto"
                     value="{{values.numero}}"
                     >
                 </div>
@@ -27,53 +37,69 @@
                     type="text" 
                     name="cliente" 
                     class="form-control" 
-                    placeholder="Pesquisar pelo nome do cliente"
+                    placeholder="Nome do cliente"
                     value="{{values.cliente}}"
                     >
                 </div>
 
-                <div class="col-md-4 mb-3">
+                <!-- <div class="col-md-3 mb-3">
                   <label class="sr-only">Usuário</label>
                   <input 
                     type="text" 
                     name="username" 
                     class="form-control" 
-                    placeholder="Pesquisar pelo nome do usuário"
+                    placeholder="Nome do usuário"
                     value="{{values.username}}"
                     >
-                </div>
-
-                <!-- <div class="col-md-4 mb-3">
-                  <label class="sr-only">State</label>
-                  <select name="state" class="form-control">
-                    <option selected="true" disabled="disabled">State (All)</option>
-                    {% for k,v in state_choices.items %}
-                        <option value="{{k}}" {% if k == values.state %}selected{% endif %}>{{v}}</option>
-                      {% endfor %}
-                  </select>
                 </div> -->
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">Liquidado</label>
+                  <select name="liquidado" class="form-control">                    
+                    <option  value="S" {% if values.liquidado == "S" %}  selected {% endif %}>Liquidado</option>                
+                    <option value="N" {% if not values.liquidado or values.liquidado == "N" %} selected{% endif %}>Em aberto</option>              
+                  </select>
+                </div>
 
               </div>
-              <!-- Form Row 2 -->
-              <!-- <div class="form-row">
-                <div class="col-md-6 mb-3">
-                  <label class="sr-only">Bedrooms</label>
-                  <select name="bedrooms" class="form-control">
-                    <option selected="true" disabled="disabled">Bedrooms (Any)</option>
-                    {% for k,v in bedroom_choices.items %}      
-                        <option value="{{ k }}"  {% if k == values.bedrooms %}selected{% endif %}>{{v}}</option>
-                    {% endfor %}
-                  </select>
-                </div>
-                <div class="col-md-6 mb-3">
-                  <select name="price" class="form-control">
-                    <option selected="true" disabled="disabled">Max Price (All)</option>
-                    {% for k,v in price_choices.items %}
-                        <option value="{{k}}" {% if k == values.price %}selected{% endif %}>{{v}}</option>
-                    {% endfor %}
-                  </select>
-                </div>
-              </div> -->
+
+              <div class="form-row">
+                <div class="col-md-4 mb-3 form-group text-left">                    
+                  <label for="cpf_cnpj">CPF/CNPJ</label>
+                  <input                       
+                    class="form-control" 
+                    id="cpf_cnpj"
+                    name="cpf_cnpj"
+                    size="16" 
+                    placeholder="000.000.000-00 ou 00.000.000/0000-00"
+                    type="text" 
+                    value="{{values.cpf_cnpj}}"
+                     
+                    >      
+                            
+              </div>
+                  <div class="col-md-4 mb-3 form-group text-left">                    
+                      <label for="init-date">Data inicial</label>
+                      <input                       
+                        class="form-control" 
+                        id="init-date"
+                        name="data_inicial"
+                        size="16" 
+                        type="date" 
+                        value="{{values.data_inicial}}">                 
+                  </div>
+
+                    <div class="col-md-4 mb-3 form-group text-left">                      
+                      <label>Data Final</label>
+                      <input                       
+                        class="form-control" 
+                        size="16" 
+                        type="date" 
+                        name="data_final"
+                        value="{{values.data_final}}">            
+                    </div>
+              
+              </div>
+              
               
               <button class="btn btn-secondary btn-block mt-4" type="submit">Pesquisar</button>
             </form>
@@ -88,11 +114,21 @@
                         <div class="col-md-12 ">
                             <div class="card">
                                 <div class="card-body">
-                                    <h3 class="card-title">
-                                        {{ boleto.username }}
-                                    </h3>
-                                    <h4 class="card-subtitle text-muted">{{ boleto.cd_fatura.cd_pessoa.nome_razaosocial }}</h4>
-                                   <p>Nosso número: {{ boleto.nosso_numero_formatado }}</p>
+                                  <h4 class="card-subtitle text-muted">{{ boleto.cd_fatura.cd_pessoa.nome_razaosocial }}</h4>
+                                   <p>Vencimento: {{ boleto.vencimento|date:"d/m/Y"}}</p>
+
+
+                                   <p>Liquidado: {{boleto.liquidado}}</p>                        
+
+
+                                   <form action="{% url 'bdetails' %}">
+                                    <button type="submit" class="btn btn-primary">Detalhes (Logs)</button>
+                                    <input type="hidden" name="vencimento" value="{{ boleto.vencimento_dt_normal|date:"d/m/Y" }}">
+                                    <input type="hidden" name="bcodgeracao" value="{{ boleto.codgeracao }}">                                    
+                                    <input type="hidden" name="nome_razaosocial" value="{{ boleto.cd_fatura.cd_pessoa.nome_razaosocial}}">
+                                    <input type="hidden" name="cpf" value="{{ boleto.cd_fatura.cd_pessoa.cpf}}">
+                                    <input type="hidden" name="cnpj" value="{{ boleto.cd_fatura.cd_pessoa.cnpj }}">
+                                </form>
                                 </div>
                         </div>
                     </div>

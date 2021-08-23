@@ -1,5 +1,6 @@
 from django.db.models import query
 from django.db.models.expressions import F, RawSQL
+from django.db.models import Q
 from django.shortcuts import render
 from datetime import datetime
 from django.db.models import Count
@@ -70,6 +71,12 @@ def search(request):
                 if data_final:
                     queryset_list = queryset_list.filter(acctstartdate__lte=data_final)
     
+    if 'cpf_cnpj' in request.GET:
+        cpf_cnpj = request.GET['cpf_cnpj']
+        print('Filtering CPF: ', cpf_cnpj)
+        if cpf_cnpj:
+            queryset_list = queryset_list.filter(Q(mkconn_user__codcliente__cpf__contains=cpf_cnpj) | Q(mkconn_user__codcliente__cnpj__contains=cpf_cnpj))
+
     print('QUERY: ', queryset_list.query)
 
     queryset_list = queryset_list.annotate(Count('mkconn_user'))
@@ -111,6 +118,8 @@ def details(request ):
                 fim_conexao = request.GET['fim_conexao']
                 if fim_conexao:
                     queryset_list = queryset_list.filter(acctstartdate__lte=fim_conexao)
+    
+    
     
     print('QUERY: ', queryset_list.query)
     queryset_list = queryset_list.order_by('-acctstartdate')
