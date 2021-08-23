@@ -40,6 +40,7 @@
                                     <th>Fim</th>
                                     <th>Bytes/Entrada</th>
                                     <th>Bytes/Saída</th>
+                                    <!-- <th>Plano de acesso</th> -->
                                 </tr>
                             </thead>       
                             <tbody>
@@ -49,6 +50,7 @@
                                         <td>{{ conexao.acctstopdate|date:"d/m/Y"  }}</td>
                                         <td>{{ conexao.acctinputoctets }}</td>
                                         <td>{{ conexao.acctoutputoctets }}</td>
+                                        <!-- <td>{{ conexao.codplano_acesso.descricao}}</td> -->
                                     </tr>
                                 {% endfor %}
                             </tbody>         

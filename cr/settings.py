@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1','177.87.92.166']
 # Application definition
 
 INSTALLED_APPS = [
+    'django.contrib.humanize',
     'conexoes.apps.ConexoesConfig',
     'boletos.apps.BoletosConfig',
     'accounts.apps.AccountsConfig',

@@ -4,6 +4,7 @@ from django.db.models import Q
 from django.shortcuts import render
 from datetime import datetime
 from django.db.models import Count
+from calendar import monthrange
 
 # Create your views here.
 from .models import MkBairros, MkConexoes, MkContratos, MkRadacct
@@ -71,6 +72,8 @@ def search(request):
                 if data_final:
                     queryset_list = queryset_list.filter(acctstartdate__lte=data_final)
     
+
+    
     if 'cpf_cnpj' in request.GET:
         cpf_cnpj = request.GET['cpf_cnpj']
         print('Filtering CPF: ', cpf_cnpj)
@@ -119,6 +122,18 @@ def details(request ):
                 if fim_conexao:
                     queryset_list = queryset_list.filter(acctstartdate__lte=fim_conexao)
     
+    if 'vencimento' in request.GET:
+        vencimento = request.GET['vencimento']
+        print('VENCIMENTO: ', vencimento)
+        arr = vencimento.split(sep="-")
+        month = arr[1]
+        year = arr[0]
+
+        _ , monthdays = monthrange(int(year), int(month))
+
+        if vencimento:
+            queryset_list = queryset_list.filter(acctstartdate__range=[f"{year}-{month}-01", f"{year}-{month}-{monthdays}"])
+
     
     
     print('QUERY: ', queryset_list.query)

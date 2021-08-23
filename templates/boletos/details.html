@@ -1,5 +1,8 @@
 {% extends 'base.html'%}
 
+{% load humanize %}
+{% load l10n %}
+
 {% block content %}
     <div class="container">
         <div>  
@@ -26,6 +29,11 @@
                         
                             {% endif %}
                         </span></p>
+                        {% localize on %}
+                          <p><strong>Valor: </strong> R$ {{boleto.valor|floatformat:2|intcomma}}</p>
+                        {% endlocalize %}
+                        <p><strong>Vencimento: </strong> {{boleto.cd_fatura.data_vencimento|date:"d/m/Y"}}</p>
+                        <p><strong>Liquidado: </strong> {{boleto.cd_fatura.liquidado}}</p>
                     </div>
                 </div>
                 <div class="row">
@@ -36,8 +44,9 @@
                         <li class="list-group-item">{{conexao.username}} 
                           <form class="float-right" action="{% url 'details' %}">
                           <button type="submit" class="btn btn-primary">Detalhes (Logs)</button>
-                          <input type="hidden" name="inicio_conexao" value="{{ values.data_inicial }}">
-                          <input type="hidden" name="fim_conexao" value="{{ values.data_final }}">
+                          <!-- <input type="hidden" name="inicio_conexao" value="{{ values.data_inicial }}">
+                          <input type="hidden" name="fim_conexao" value="{{ values.data_final }}"> -->
+                          <input type="hidden" name="vencimento" value="{{ boleto.cd_fatura.data_vencimento|date:"Y-m-d" }}">
                           <input type="hidden" name="username" value="{{ conexao.username }}">
                           <input type="hidden" name="nome_razaosocial" value="{{ conexao.codcliente.nome_razaosocial}}">
                           <input type="hidden" name="cpf" value="{{ conexao.codcliente.cpf}}">
