@@ -64,7 +64,7 @@ def search(request):
                     queryset_list = queryset_list.filter(acctstartdate__range=[data_inicial, data_final])
                     
                 else:
-                    queryset_list = queryset_list.filter(acctstartdate__range=[data_inicial, data_final])
+                    queryset_list = queryset_list.filter(acctstartdate__range=[data_inicial, datetime.today().strftime('%Y-%m-%d')])
         elif 'data_final' in request.GET:
                 data_final = request.GET['data_final']
                 if data_final:
@@ -90,5 +90,38 @@ def search(request):
     return render(request, 'conexoes/index.html', context)
 
 def details(request ):
-    print(request.GET['inicio_conexao'])
-    return render(request, 'conexoes/details.html')
+    queryset_list = MkRadacct.objects.all()
+    if 'username' in request.GET:
+        mkconn_user = request.GET['username']
+        if mkconn_user:
+            queryset_list = queryset_list.filter(mkconn_user__exact=mkconn_user)
+
+    if 'inicio_conexao' in request.GET:
+        inicio_conexao = request.GET['inicio_conexao']
+        
+        if inicio_conexao:
+            if 'fim_conexao' in request.GET:
+                fim_conexao = request.GET['fim_conexao']
+                if fim_conexao:
+                    queryset_list = queryset_list.filter(acctstartdate__range=[inicio_conexao, fim_conexao])
+                    
+                else:
+                    queryset_list = queryset_list.filter(acctstartdate__range=[inicio_conexao, datetime.today().strftime('%Y-%m-%d')])
+        elif 'fim_conexao' in request.GET:
+                fim_conexao = request.GET['fim_conexao']
+                if fim_conexao:
+                    queryset_list = queryset_list.filter(acctstartdate__lte=fim_conexao)
+    
+    print('QUERY: ', queryset_list.query)
+    queryset_list = queryset_list.order_by('-acctstartdate')
+    paginator = Paginator(queryset_list, 50)
+    page = request.GET.get('page')
+    paged_conexoes = paginator.get_page(page)
+
+    context = {
+       
+        'values': request.GET,      
+
+        'conexoes': paged_conexoes
+    }
+    return render(request, 'conexoes/details.html', context)

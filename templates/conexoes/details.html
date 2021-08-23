@@ -16,9 +16,16 @@
                 <h1>Detalhes da Conexão</h1>
                 <div class="row">
                     <div class="col-md-6">
-                        <h2>Usuário</h2>
-                        <p><span>Nome:</span></p>
-                        <p><span>CPF/CNPJ:</span></p>
+                        <h2>{{values.username}}</h2>
+                        <p><span><strong>Nome:</strong>  {{ values.nome_razaosocial }}</span></p>
+                        <p><span><strong>CPF/CNPJ: </strong> 
+                            {% if values.cpf %} 
+                                {{ values.cpf }} 
+                            {% else %}
+                                {{ values.cnpj }}
+                        
+                            {% endif %}
+                        </span></p>
                     </div>
                 </div>
                 <div class="row">
@@ -36,7 +43,14 @@
                                 </tr>
                             </thead>       
                             <tbody>
-
+                                {% for conexao in conexoes %}
+                                    <tr>
+                                        <td>{{ conexao.acctstartdate|date:"d/m/Y" }}</td>
+                                        <td>{{ conexao.acctstopdate|date:"d/m/Y"  }}</td>
+                                        <td>{{ conexao.acctinputoctets }}</td>
+                                        <td>{{ conexao.acctoutputoctets }}</td>
+                                    </tr>
+                                {% endfor %}
                             </tbody>         
                             <tfoot>
 
@@ -50,4 +64,47 @@
             </div>
         </div>
     </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+          {% if conexoes.has_other_pages %}
+            <ul class="pagination">
+              {% if conexoes.has_previous %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{conexoes.previous_page_number}}&username={{values.username}}&inicio_conexao={{values.inicio_conexao}}&fim_conexao={{values.fim_conexao}}&nome_razaosocial={{values.nome_razaosocial}}&cpf={{ values.cpf }}&cnpj={{ values.cnpj }}">&laquo;</a>
+                </li>
+              {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link" >&laquo;</a>
+                </li>
+              {% endif %}
+
+              {% for i in conexoes.paginator.page_range %}
+                {% if conexoes.number == i %}
+                  <li class="page-item active">
+                    <a class="page-link">{{ i }}</a>
+                  </li>
+                {% else %}
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{ i }}&username={{values.username}}&inicio_conexao={{values.inicio_conexao}}&fim_conexao={{values.fim_conexao}}&nome_razaosocial={{values.nome_razaosocial}}&cpf={{ values.cpf }}&cnpj={{ values.cnpj }}">{{ i }}</a>
+                  </li>
+                {% endif %}
+              {% endfor %}           
+              
+             {% if conexoes.has_next %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{conexoes.next_page_number}}&username={{values.username}}&inicio_conexao={{values.inicio_conexao}}&fim_conexao={{values.fim_conexao}}&nome_razaosocial={{values.nome_razaosocial}}&cpf={{ values.cpf }}&cnpj={{ values.cnpj }}">&raquo;</a>
+                </li>
+              {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link">&raquo;</a>
+                </li>
+              {% endif %}
+            </ul>
+          {% endif %}
+
+        </div>
+      </div>
+      <div class="offset"></div>
 {% endblock %}

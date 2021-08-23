@@ -153,7 +153,10 @@
                                       <button type="submit" class="btn btn-primary">Detalhes (Logs)</button>
                                       <input type="hidden" name="inicio_conexao" value="{{ values.data_inicial }}">
                                       <input type="hidden" name="fim_conexao" value="{{ values.data_final }}">
-                                      <input type="hidden" name="usernamd" value="{{ conexao.mkconn_user.username }}">
+                                      <input type="hidden" name="username" value="{{ conexao.mkconn_user.username }}">
+                                      <input type="hidden" name="nome_razaosocial" value="{{ conexao.mkconn_user.codcliente.nome_razaosocial}}">
+                                      <input type="hidden" name="cpf" value="{{ conexao.mkconn_user.codcliente.cpf}}">
+                                      <input type="hidden" name="cnpj" value="{{ conexao.mkconn_user.codcliente.cnpj }}">
                                   </form>
                                 </div>
                         </div>
