@@ -13,7 +13,7 @@ services:
       - 8001:8001
     restart: always
   proxy:
-    build: ./dist/nginx
+    build: ./nginx
     volumes:
       - ./:/app/static
     ports:
