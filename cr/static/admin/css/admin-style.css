@@ -1,0 +1,30 @@
+:root {
+    --primary: #880808;
+    --secondary: #ca6130;
+
+}
+
+#header{
+    background-color: var(--primary);
+}
+
+
+div.breadcrumbs {
+    background-color: #ca6130;
+}
+
+.main#main .content #content.colMS h1{
+    display: none;
+}
+
+.main#main .content #content.colMS::before{
+    content: "Administração";
+    display: block;
+    padding: 4px;
+    font-size: 2em;
+}
+
+#branding h1{
+    color: #fff;
+    font-weight: bold;
+}
