@@ -10,7 +10,7 @@
 
 
 div.breadcrumbs {
-    background-color: #ca6130;
+    background-color: var(--secondary);
 }
 
 .main#main .content #content.colMS h1{
