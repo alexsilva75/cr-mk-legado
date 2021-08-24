@@ -23,7 +23,11 @@
               <div class="form-row ">
                 <div class="col-md-3 mb-3">
                     <label class="sr-only">Cidade</label>
-                    <select name="cidade" class="form-control">
+                    <select 
+                      name="cidade" 
+                      class="form-control"
+                      onchange="javascript:$('#bairros').load('conexoes'+this.value)"
+                      >
                       <option  value="">Cidade</option>
                       {% if values.cidade %}
                         <option value="{{values.cidade}}" selected>{{choices.cidade.cidade}}</option>
@@ -39,9 +43,9 @@
 
                 <div class="col-md-3 mb-3">
                   <label class="sr-only">Bairro</label>
-                  <select name="bairro" class="form-control">
+                  <select name="bairro" id="bairros" class="form-control">
                     <option  value="" >Bairro</option>
-                    {% if values.cidade %}
+                    {% if values.bairro %}
                         <option value="{{values.bairro}}" selected>{{choices.bairro.bairro}}</option>
                     {% endif %}
 

@@ -1,0 +1,9 @@
+<option  value="" >Bairro</option>
+{% if values.bairro %}
+    <option value="{{values.bairro}}" selected>{{choices.bairro.bairro}}</option>
+{% endif %}
+
+{% for bairro in bairros %}      
+    <option value="{{ bairro.codbairro }}"  
+    {% if bairro.codbairro == values.bairro %}selected{% endif %}>{{bairro.bairro}}</option>
+{% endfor %}

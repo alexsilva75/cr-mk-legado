@@ -165,3 +165,16 @@ def details(request ):
         'conexoes': paged_conexoes
     }
     return render(request, 'conexoes/details.html', context)
+
+
+def bairros_filter(request, cidade_id):
+    bairros_queryset_list = MkBairros.objects.all()
+    bairros_queryset_list = bairros_queryset_list.filter(codcidade=cidade_id)
+    context = {
+        
+        'bairros': bairros_queryset_list,
+        'values': request.GET,      
+        
+    }
+
+    return render(request, 'conexoes/bairros.html', context)
