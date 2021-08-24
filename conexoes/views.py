@@ -58,6 +58,11 @@ def search(request):
         if username:
             queryset_list = queryset_list.filter(mkconn_user__username__icontains=username)
 
+    if 'cliente' in request.GET:
+        cliente = request.GET['cliente']
+        if cliente:
+            queryset_list = queryset_list.filter(mkconn_user__codcliente__nome_razaosocial__icontains=cliente)
+
     if 'data_inicial' in request.GET:
         data_inicial = request.GET['data_inicial']
         
@@ -96,7 +101,7 @@ def search(request):
 
     print('QUERY: ', queryset_list.query)
 
-    print('QUERYSET_LIST[0]',queryset_list[0])
+    print('QUERYSET_LIST_LENGTH',len(queryset_list))
 
     queryset_list = queryset_list.order_by('-acctstartdate')
     paginator = Paginator(queryset_list, 50)
@@ -178,3 +183,10 @@ def bairros_filter(request, cidade_id):
     }
 
     return render(request, 'conexoes/bairros.html', context)
+
+
+def cpf(request):
+    return render(request, 'conexoes/cpf.html')
+
+def cnpj(request):
+    return render(request, 'conexoes/cnpj.html')

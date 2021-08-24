@@ -29,7 +29,7 @@ def search(request):
     if 'cliente' in request.GET:
         cliente = request.GET['cliente']
         if cliente:
-            query_list = query_list.filter(cd_fatura__cd_pessoa__nome_razaosocial__contains=cliente)
+            query_list = query_list.filter(cd_fatura__cd_pessoa__nome_razaosocial__icontains=cliente)
     
     liquidado = request.GET.get('liquidado')
     query_list = query_list.filter(cd_fatura__liquidado__exact=liquidado)

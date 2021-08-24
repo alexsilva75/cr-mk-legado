@@ -64,17 +64,34 @@
 
               <div class="form-row">
                 <div class="col-md-4 mb-3 form-group text-left">                    
+                  <input 
+                    type="radio" 
+                    checked 
+                    name="cpfcnpj" 
+                    onchange="" 
+                    id="cpfcnpj"
+                    onclick="javascript:$('#cpfcnpj_wrapper').load('/conexoescpf')"
+                    > Pessoa Física   | 
+                  <input 
+                    type="radio" 
+                    name="cpfcnpj" 
+                    onchange="" 
+                    id=""
+                    onclick="javascript:$('#cpfcnpj_wrapper').load('/conexoescnpj')"
+                    > Pessoa Jurídica    |           
                   <label for="cpf_cnpj">CPF/CNPJ</label>
+                  <span id="cpfcnpj_wrapper">
                   <input                       
                     class="form-control" 
                     id="cpf_cnpj"
                     name="cpf_cnpj"
+                    placeholder="000.000.000-00"
                     size="16" 
-                    placeholder="000.000.000-00 ou 00.000.000/0000-00"
                     type="text" 
-                    value="{{values.cpf_cnpj}}"
-                     
+                    value="{{values.cpf_cnpj}}"           
+                    
                     >      
+                  </span>     
                             
               </div>
                   <div class="col-md-4 mb-3 form-group text-left">                    
@@ -118,7 +135,12 @@
                                    <p>Vencimento: {{ boleto.cd_fatura.data_vencimento|date:"d/m/Y"}}</p>
 
 
-                                   <p>Liquidado: {{boleto.cd_fatura.liquidado}}</p>                        
+                                   <p>Liquidado: {{boleto.cd_fatura.liquidado}}</p>     
+                                   <p>CPF/CNPJ: {% if boleto.cd_fatura.cd_pessoa.cpf %}                                     
+                                                    {{boleto.cd_fatura.cd_pessoa.cpf}}</p>    
+                                                {% else %}
+                                                    {{boleto.cd_fatura.cd_pessoa.cnpj}}</p> 
+                                                {% endif %}               
 
 
                                    <form class="float-right" action="{% url 'bdetails' %}">

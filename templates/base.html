@@ -41,9 +41,10 @@
 
 
     <script>
-      
 
-
+$('#cpf').mask('000.000.000-00')
+$('#cnpj').mask('00.000.000/0000-00')
+$("#cpf_cnpj").mask('000.000.000-00')
       function maskCPFCNPJ(){
         let input_cpfcnpj = $('#cpf_cnpj')
         console.log(input_cpfcnpj.val())
