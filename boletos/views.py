@@ -3,10 +3,14 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import MkBoletosGerados
 from datetime import datetime
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
+@login_required
 def index(request):
     return render(request, 'boletos/index.html')
 
+@login_required
 def search(request):
     query_list = MkBoletosGerados.objects.all()
 
@@ -66,7 +70,7 @@ def search(request):
 
     return render(request, 'boletos/index.html', context)
 
-
+@login_required
 def details(request ):
     boleto = MkBoletosGerados.objects.get(pk=request.GET['bcodgeracao'])
     

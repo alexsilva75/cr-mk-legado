@@ -6,13 +6,14 @@ from django.shortcuts import render
 from datetime import datetime
 from django.db.models import Count
 from calendar import monthrange
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 from .models import MkBairros, MkConexoes, MkContratos, MkRadacct
 from .models import MkCidades
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-
+@login_required
 def index(request):
     bairros = MkBairros.objects.all()
     cidades = MkCidades.objects.all()
@@ -29,7 +30,7 @@ def index(request):
 
     return render(request, 'conexoes/index.html', context)
 
-
+@login_required
 def search(request):
     bairros = MkBairros.objects.all()
     cidades = MkCidades.objects.all()
@@ -112,6 +113,8 @@ def search(request):
 
     return render(request, 'conexoes/index.html', context)
 
+
+@login_required
 def details(request ):
     queryset_list = MkRadacct.objects.all()
     if 'username' in request.GET:
