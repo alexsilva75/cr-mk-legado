@@ -13,8 +13,6 @@ def index(request):
 @login_required
 def search(request):
     query_list = MkBoletosGerados.objects.all()
-
-    
     
     # if 'username' in request.GET:
     #     username = request.GET['username']
@@ -22,12 +20,12 @@ def search(request):
     #         query_list = query_list.filter(cd_fatura__cd_pessoa__conexoes__contains=username)
     
     if 'numero' in request.GET:
-        numero = request.GET['numero']
+        numero = request.GET.get('numero')
         if numero:
             query_list = query_list.filter(nosso_numero_formatado__contains=numero)
     
     if 'cliente' in request.GET:
-        cliente = request.GET['cliente']
+        cliente = request.GET.get('cliente')
         if cliente:
             query_list = query_list.filter(cd_fatura__cd_pessoa__nome_razaosocial__icontains=cliente)
     
@@ -35,26 +33,29 @@ def search(request):
     query_list = query_list.filter(cd_fatura__liquidado__exact=liquidado)
 
     if 'cpf_cnpj' in request.GET:
-        cpf_cnpj = request.GET['cpf_cnpj']
+        cpf_cnpj = request.GET.get('cpf_cnpj')
         if cpf_cnpj:
             query_list = query_list.filter(Q(cd_fatura__cd_pessoa__cpf=cpf_cnpj) | Q(cd_fatura__cd_pessoa__cnpj=cpf_cnpj))
 
     
     if 'data_inicial' in request.GET:
-        data_inicial = request.GET['data_inicial']
+        data_inicial = request.GET.get('data_inicial')
         
         if data_inicial:
             if 'data_final' in request.GET:
-                data_final = request.GET['data_final']
+                data_final = request.GET.get('data_final')
                 if data_final:
                     query_list = query_list.filter(cd_fatura__data_vencimento__range=[data_inicial, data_final])
                     
                 else:
                     query_list = query_list.filter(cd_fatura__data_vencimento__range=[data_inicial, datetime.today().strftime('%Y-%m-%d')])
         elif 'data_final' in request.GET:
-                data_final = request.GET['data_final']
+                data_final = request.GET.get('data_final')
                 if data_final:
                     query_list = query_list.filter(cd_fatura__data_vencimento__lte=data_final)
+    
+    if 'liquidado' in request.GET:
+        liquidado = request.GET.get('liquidado')
 
     query_list = query_list.order_by('-cd_fatura__data_vencimento')
     paginator = Paginator(query_list, 50)

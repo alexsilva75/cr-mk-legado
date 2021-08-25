@@ -180,7 +180,7 @@
         <ul class="pagination">
           {% if boletos.has_previous %}
             <li class="page-item">
-              <a class="page-link" href="?page={{boletos.previous_page_number}}&cliente={{values.cliente}}&numero={{values.numero}}&{{values.username}}">&laquo;</a>
+              <a class="page-link" href="?page={{boletos.previous_page_number}}&numero={{values.numero}}&cliente={{values.cliente}}&liquidado={{values.liquidado}}&cpf_cnpj={{values.cpf_cnpj}}&data_inicial={{values.data_inicial}}&data_final={{values.data_final}}">&laquo;</a>
             </li>
           {% else %}
             <li class="page-item disabled">
@@ -195,14 +195,14 @@
               </li>
             {% else %}
               <li class="page-item">
-                <a class="page-link" href="?page={{ i }}&cliente={{values.cliente}}&numero={{values.numero}}&{{values.username}}">{{ i }}</a>
+                <a class="page-link" href="?page={{ i }}&numero={{values.numero}}&cliente={{values.cliente}}&liquidado={{values.liquidado}}&cpf_cnpj={{values.cpf_cnpj}}&data_inicial={{values.data_inicial}}&data_final={{values.data_final}}">{{ i }}</a>
               </li>
             {% endif %}
           {% endfor %}           
           
          {% if boletos.has_next %}
             <li class="page-item">
-              <a class="page-link" href="?page={{boletos.next_page_number}}&cliente={{values.cliente}}&numero={{values.numero}}&{{values.username}}">&raquo;</a>
+              <a class="page-link" href="?page={{boletos.next_page_number}}&numero={{values.numero}}&cliente={{values.cliente}}&liquidado={{values.liquidado}}&cpf_cnpj={{values.cpf_cnpj}}&data_inicial={{values.data_inicial}}&data_final={{values.data_final}}">&raquo;</a>
             </li>
           {% else %}
             <li class="page-item disabled">
