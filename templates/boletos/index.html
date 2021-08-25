@@ -130,28 +130,40 @@
                     <div class="row my-2">
                         <div class="col-md-12 ">
                             <div class="card">
-                                <div class="card-body">
-                                  <h4 class="card-subtitle text-muted">{{ boleto.cd_fatura.cd_pessoa.nome_razaosocial }}</h4>
-                                   <p>Vencimento: {{ boleto.cd_fatura.data_vencimento|date:"d/m/Y"}}</p>
+
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="card-body">
+                                      <h4 class="card-subtitle text-muted">{{ boleto.cd_fatura.cd_pessoa.nome_razaosocial }}</h4>
+                                       
+                                      <p>CPF/CNPJ: {% if boleto.cd_fatura.cd_pessoa.cpf %}                                     
+                                                        {{boleto.cd_fatura.cd_pessoa.cpf}}</p>    
+                                                    {% else %}
+                                                        {{boleto.cd_fatura.cd_pessoa.cnpj}}</p> 
+                                                    {% endif %}          
+                                      <p>Nosso Número: {{ boleto.nosso_numero_formatado }}</p>     
 
 
-                                   <p>Liquidado: {{boleto.cd_fatura.liquidado}}</p>     
-                                   <p>CPF/CNPJ: {% if boleto.cd_fatura.cd_pessoa.cpf %}                                     
-                                                    {{boleto.cd_fatura.cd_pessoa.cpf}}</p>    
-                                                {% else %}
-                                                    {{boleto.cd_fatura.cd_pessoa.cnpj}}</p> 
-                                                {% endif %}               
-
-
-                                   <form class="float-right" action="{% url 'bdetails' %}">
-                                    <button type="submit" class="btn btn-primary">Detalhes (Logs)</button>
-                                    <input type="hidden" name="vencimento" value="{{ boleto.vencimento_dt_normal|date:"d/m/Y" }}">
-                                    <input type="hidden" name="bcodgeracao" value="{{ boleto.codgeracao }}">                                    
-                                    <input type="hidden" name="nome_razaosocial" value="{{ boleto.cd_fatura.cd_pessoa.nome_razaosocial}}">
-                                    <input type="hidden" name="cpf" value="{{ boleto.cd_fatura.cd_pessoa.cpf}}">
-                                    <input type="hidden" name="cnpj" value="{{ boleto.cd_fatura.cd_pessoa.cnpj }}">
-                                </form>
+                                      
+                                  </div>
                                 </div>
+                                <div class="col-md-6">
+                                  <div class="card-body">
+                                    <p>Vencimento: {{ boleto.cd_fatura.data_vencimento|date:"d/m/Y"}}</p>
+                                    <p>Liquidado: {{boleto.cd_fatura.liquidado}}</p>  
+                                    <form class="float-right pb-4" action="{% url 'bdetails' %}">
+                                      <button type="submit" class="btn btn-primary ">Detalhes (Logs)</button>
+                                      <input type="hidden" name="vencimento" value="{{ boleto.vencimento_dt_normal|date:"d/m/Y" }}">
+                                      <input type="hidden" name="bcodgeracao" value="{{ boleto.codgeracao }}">                                    
+                                      <input type="hidden" name="nome_razaosocial" value="{{ boleto.cd_fatura.cd_pessoa.nome_razaosocial}}">
+                                      <input type="hidden" name="cpf" value="{{ boleto.cd_fatura.cd_pessoa.cpf}}">
+                                      <input type="hidden" name="cnpj" value="{{ boleto.cd_fatura.cd_pessoa.cnpj }}">
+                                    </form> 
+                                  </div>
+                                </div>
+
+                              </div>
+
                         </div>
                     </div>
                     </div>

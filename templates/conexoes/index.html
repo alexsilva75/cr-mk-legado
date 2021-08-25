@@ -154,34 +154,58 @@
                     <div class="row my-2">
                         <div class="col-md-12 ">
                             <div class="card">
-                                <div class="card-body">
-                                    <h3 class="card-title h4">
-                                        {{ conexao.mkconn_user }}
-                                    </h3>
-                                    <h4 class="card-subtitle text-muted">{{ conexao.mkconn_user__codcliente__nome_razaosocial }}</h4>
-                                    <p class="card-text">
-                                       {{ conexao.mkconn_user__codcliente__codcidade__cidade }}, {{ conexao.mkconn_user__codcliente__codbairro__bairro }}
+                              <div class="row">
+                                <div class="col-md-6">
+
+                                  <div class="card-body">
+                                      <h3 class="card-title h4">
+                                          {{ conexao.mkconn_user }}
+                                      </h3>
+                                      <h4 class="card-subtitle text-muted">{{ conexao.mkconn_user__codcliente__nome_razaosocial }}</h4>
+                                        
+                                      
+                                    <!-- <p class="card-text">
+                                      Início da conexão: {{ conexao.acctstartdate }}                                    
                                     </p>
-                                   
-                                   <!-- <p class="card-text">
-                                    Início da conexão: {{ conexao.acctstartdate }}                                    
-                                  </p>
-                                  <p class="card-text">
-                                    Fim da conexão: {{ conexao.acctstopdate }}                                  
-                                  </p> -->
-                                  <form class="float-right" action="{% url 'details' %}">
-                                      <button type="submit" class="btn btn-primary">Detalhes (Logs)</button>
+                                    <p class="card-text">
+                                      Fim da conexão: {{ conexao.acctstopdate }}                                  
+                                    </p> -->
+                                    
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="card-body">
+                                    <p>CPF/CNPJ: {% if conexao.mkconn_user__codcliente__cpf %}                                     
+                                      {{ conexao.mkconn_user__codcliente__cpf }}</p>    
+                                  {% else %}
+                                      {{ conexao.mkconn_user__codcliente__cnpj }}</p> 
+                                  {% endif %}
+                                    <p class="card-text">
+                                      {{ conexao.mkconn_user__codcliente__codcidade__cidade }}, {{ conexao.mkconn_user__codcliente__codbairro__bairro }}
+                                    </p>
+                                    <form class="float-right  pb-4" action="{% url 'details' %}">
+                                      <button type="submit"  class="btn btn-primary">Detalhes (Logs)</button>
                                       <input type="hidden" name="inicio_conexao" value="{{ values.data_inicial }}">
                                       <input type="hidden" name="fim_conexao" value="{{ values.data_final }}">
                                       <input type="hidden" name="username" value="{{ conexao.mkconn_user }}">
                                       <input type="hidden" name="nome_razaosocial" value="{{ conexao.mkconn_user__codcliente__nome_razaosocial}}">
                                       <input type="hidden" name="cpf" value="{{ conexao.mkconn_user__codcliente__cpf}}">
                                       <input type="hidden" name="cnpj" value="{{ conexao.mkconn_user__codcliente__cnpj }}">
-                                  </form>
+                                    </form>
+                                  </div>
                                 </div>
+
+
+                                
+                              </div>
+
+                            </div>
+
+
+
                         </div>
                     </div>
-                    </div>
+                   
                 {% endfor %}
             <!-- </div> -->
 
