@@ -4,6 +4,7 @@ from .models import MkBoletosGerados
 from datetime import datetime
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
+from math import floor
 
 # Create your views here.
 @login_required
@@ -62,11 +63,28 @@ def search(request):
     page = request.GET.get('page')
     paged_boletos = paginator.get_page(page)
 
+    page_range = paged_boletos.paginator.page_range
+    last_page = page_range[-1]
+    middle = floor(last_page / 2)
 
     print('QUERY: ', query_list.query)
+    print('MIDDLE: ', middle)
+
+    range_5 = []
+
+    if paged_boletos.number < 3:
+        range_5 = range(1,6)
+    else:
+        range_5 = range(paged_boletos.number - 3, paged_boletos.number + 2)
+
     context = {
         'values': request.GET,      
-        'boletos': paged_boletos
+        'boletos': paged_boletos,
+        'middle': middle,
+        'last_page': last_page,
+        'range_5': range_5,
+        'range_middle': range(paged_boletos.number - 1, paged_boletos.number + 5),
+        'range_last': range(last_page - 5, last_page + 1)
     }
 
     return render(request, 'boletos/index.html', context)

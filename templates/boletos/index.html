@@ -173,47 +173,96 @@
   </div>
 
 
-  <div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      {% if boletos.has_other_pages %}
-        <ul class="pagination">
-          {% if boletos.has_previous %}
-            <li class="page-item">
-              <a class="page-link" href="?page={{boletos.previous_page_number}}&numero={{values.numero}}&cliente={{values.cliente}}&liquidado={{values.liquidado}}&cpf_cnpj={{values.cpf_cnpj}}&data_inicial={{values.data_inicial}}&data_final={{values.data_final}}">&laquo;</a>
-            </li>
-          {% else %}
-            <li class="page-item disabled">
-              <a class="page-link" >&laquo;</a>
-            </li>
-          {% endif %}
+  <!-- Pagination -->
 
-          {% for i in boletos.paginator.page_range %}
-            {% if boletos.number == i %}
-              <li class="page-item active">
-                <a class="page-link">{{ i }}</a>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+
+       
+
+        {% if boletos.has_other_pages %}
+          <ul class="pagination">
+            {% if boletos.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{boletos.previous_page_number}}&numero={{values.numero}}&cliente={{values.cliente}}&liquidado={{values.liquidado}}&cpf_cnpj={{values.cpf_cnpj}}&data_inicial={{values.data_inicial}}&data_final={{values.data_final}}">&laquo;</a>
               </li>
             {% else %}
-              <li class="page-item">
-                <a class="page-link" href="?page={{ i }}&numero={{values.numero}}&cliente={{values.cliente}}&liquidado={{values.liquidado}}&cpf_cnpj={{values.cpf_cnpj}}&data_inicial={{values.data_inicial}}&data_final={{values.data_final}}">{{ i }}</a>
+              <li class="page-item disabled">
+                <a class="page-link" >&laquo;</a>
               </li>
             {% endif %}
-          {% endfor %}           
-          
-         {% if boletos.has_next %}
-            <li class="page-item">
-              <a class="page-link" href="?page={{boletos.next_page_number}}&numero={{values.numero}}&cliente={{values.cliente}}&liquidado={{values.liquidado}}&cpf_cnpj={{values.cpf_cnpj}}&data_inicial={{values.data_inicial}}&data_final={{values.data_final}}">&raquo;</a>
-            </li>
-          {% else %}
-            <li class="page-item disabled">
-              <a class="page-link">&raquo;</a>
-            </li>
-          {% endif %}
-        </ul>
-      {% endif %}
+  
 
+            {% if last_page > 10 %}
+               
+                    {% for i in range_5 %}
+                        {% if boletos.number == i %}
+                          <li class="page-item active">
+                            <a class="page-link">{{ i }}</a>
+                          </li>
+                        {% else %}
+                          <li class="page-item">
+                            <a class="page-link" href="?page={{ i }}&numero={{values.numero}}&cliente={{values.cliente}}&liquidado={{values.liquidado}}&cpf_cnpj={{values.cpf_cnpj}}&data_inicial={{values.data_inicial}}&data_final={{values.data_final}}">{{ i }}</a>
+                          </li>
+                        {% endif %}
+                    {% endfor %} 
+                    <span>...</span>                  
+
+                        {% for i in range_last %}
+                            {% if boletos.number == i %}
+                              <li class="page-item active">
+                                <a class="page-link">{{ i }}</a>
+                              </li>
+                            {% else %}
+                              <li class="page-item">
+                                <a class="page-link" href="?page={{ i }}&numero={{values.numero}}&cliente={{values.cliente}}&liquidado={{values.liquidado}}&cpf_cnpj={{values.cpf_cnpj}}&data_inicial={{values.data_inicial}}&data_final={{values.data_final}}">{{ i }}</a>
+                              </li>
+                            {% endif %}
+                        {% endfor %}
+
+                    
+                
+
+              
+  
+            {% else %}
+
+
+
+
+                {% for i in boletos.paginator.page_range %}
+                  {% if boletos.number == i %}
+                    <li class="page-item active">
+                      <a class="page-link">{{ i }}</a>
+                    </li>
+                  {% else %}
+                    <li class="page-item">
+                      <a class="page-link" href="?page={{ i }}&numero={{values.numero}}&cliente={{values.cliente}}&liquidado={{values.liquidado}}&cpf_cnpj={{values.cpf_cnpj}}&data_inicial={{values.data_inicial}}&data_final={{values.data_final}}">{{ i }}</a>
+                    </li>
+                  {% endif %}
+                {% endfor %}  
+                
+                
+
+            {% endif %}
+           {% if boletos.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{boletos.next_page_number}}&numero={{values.numero}}&cliente={{values.cliente}}&liquidado={{values.liquidado}}&cpf_cnpj={{values.cpf_cnpj}}&data_inicial={{values.data_inicial}}&data_final={{values.data_final}}">&raquo;</a>
+              </li>
+            {% else %}
+              <li class="page-item disabled">
+                <a class="page-link">&raquo;</a>
+              </li>
+            {% endif %}
+          </ul>
+        {% endif %}
+  
+      </div>
     </div>
   </div>
-</div>
+
+
+  <!-- End Pagination -->
   <div class="offset"></div>
 {% endblock %}
